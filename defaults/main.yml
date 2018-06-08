@@ -57,10 +57,15 @@ jenkins_docker_image: "jenkins/jenkins"
 # The name of the jenkins container
 jenkins_docker_container_name: jenkins
 
+# The name of the volume to create for jenkins_home
+jenkins_docker_volume_name: jenkins_home
+
 # Default, if true, the port will be exposed on the host (using "port")
 # If set to false, the port will only be exposed to other containers (using "expose")
 jenkins_docker_expose_port: true
 
+# Extra labels to apply to the container
+jenkins_docker_labels: {}
 
 #############################################
 # Apt vars: apply to deploying via apt only #

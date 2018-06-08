@@ -14,8 +14,9 @@
     image: "{{ jenkins_docker_image }}:{{ jenkins_version }}"
     published_ports:
       - "{{ jenkins_port }}:8080"
+    labels: "{{ jenkins_docker_labels }}"
     volumes:
-      - "{{ jenkins_home }}:/var/jenkins_home"
+      - "{{jenkins_docker_volume_name}}:/var/jenkins_home"
     env:
       JAVA_OPTS: "{{ jenkins_java_opts }}"
   register: container_result
@@ -26,8 +27,9 @@
     name: "{{ jenkins_docker_container_name }}"
     image: "{{ jenkins_docker_image }}:{{ jenkins_version }}"
     expose: "8080"
+    labels: "{{ jenkins_docker_labels }}"
     volumes:
-      - "{{ jenkins_home }}:/var/jenkins_home"
+      - "{{jenkins_docker_volume_name}}:/var/jenkins_home"
     env:
       JAVA_OPTS: "{{ jenkins_java_opts }}"
   register: container_result
@@ -35,4 +37,5 @@
 
 - pause:
     seconds: 45
-  when: container_result|changed
+  when: container_result is changed
+

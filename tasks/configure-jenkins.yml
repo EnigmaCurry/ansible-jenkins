@@ -36,6 +36,15 @@
   when: jenkins_include_custom_files
   with_items: "{{ jenkins_custom_files }}"
 
+- name: Create secrets dir
+  file:
+    path: "{{ jenkins_home }}/secrets"
+    state: directory
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+    mode: 0700
+  when: jenkins_include_secrets
+
 - name: secrets dir is up to date
   copy:
     src: "{{ jenkins_source_secrets }}"
@@ -44,8 +53,5 @@
     group: "{{ jenkins_config_group }}"
   when: jenkins_include_secrets
 
-- name: set permissions on secrets dir
-  file:
-    path: "{{ jenkins_home }}/secrets"
-    mode: 0700
-  when: jenkins_include_secrets
+- name: Copy configuration into the volume
+  command: docker cp {{ jenkins_home }}/ {{ jenkins_docker_container_name }}:/var/jenkins_home

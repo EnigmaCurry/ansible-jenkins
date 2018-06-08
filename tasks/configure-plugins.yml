@@ -35,6 +35,8 @@
   with_items: "{{ jenkins_custom_plugins }}"
   when: jenkins_custom_plugins is defined
 
-- wait_for:
-    path: "{{ jenkins_home }}/plugins/{{ item }}.jpi"
+- name: Wait for plugins to fully download
+  wait_for:
+    path: "/var/lib/docker/volumes/{{ jenkins_docker_volume_name }}/_data/plugins/{{ item }}.jpi"
+    timeout: 3600
   with_items: "{{ jenkins_plugins }}"
